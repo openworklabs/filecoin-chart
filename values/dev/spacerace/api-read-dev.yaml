@@ -10,8 +10,8 @@ resources:
       cpu: 3800m
       memory: 29Gi
     requests:
-      cpu: 3
-      memory: 25Gi
+      cpu: 2500m
+      memory: 20Gi
 persistence:
   enabled: true
   autoResizer:

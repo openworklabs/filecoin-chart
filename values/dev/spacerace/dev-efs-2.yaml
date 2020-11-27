@@ -1,0 +1,35 @@
+secretVolume:
+  enabled: false
+resources:
+  lotus:
+    limits:
+      cpu: 3800m
+      memory: 25Gi
+    requests:
+      cpu: 1500m
+      memory: 12Gi
+persistence:
+  efs: fs-c20062ba
+  autoResizer:
+    enabled: false
+  lotus:
+    accessModes:
+    - ReadWriteMany
+    size: 100Gi
+    storageClassName: efs-sc
+  snapshots:
+    enabled: false
+    restore:
+      enabled: false
+nodeSelector:
+  nodeLabel:
+    lifecycle: Ec2Spot-i3
+
+#ingress:
+#  lotus:
+#    annotations:
+#      nginx.ingress.kubernetes.io/configuration-snippet: |
+#        proxy_set_header Authorization $apiread_dev_jwt;
+#        proxy_cache_bypass      $http_upgrade;
+#      nginx.ingress.kubernetes.io/cors-allow-headers: Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Length,Content-Range,Range
+#      nginx.ingress.kubernetes.io/cors-allow-origin: "*"

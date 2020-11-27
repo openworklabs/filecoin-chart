@@ -1,0 +1,17 @@
+{{- if .Values.persistence.efs }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vol-efs-lotus-{{ .Release.Name }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.lotus.size | quote }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: {{ .Values.persistence.efs }}
+{{- end}}
