@@ -1,3 +1,11 @@
+cache:
+  enabled: true
+  proxyurl: http://servicename:1234/rpc/v0
+  jwtbase64: x
+  nodeSelector:
+    nodeLabel:
+      role: worker
+
 init:
   importSnapshot:
     SNAPSHOTURL: "https://fil-chain-snapshots-fallback.s3.amazonaws.com/mainnet/minimal_finality_stateroots_latest.car"
@@ -15,8 +23,6 @@ persistence:
   autoResizer:
     enabled: false
   lotus:
-    accessModes:
-      - ReadWriteOnce
     storageClassName: local-storage
   snapshots:
     automation:
@@ -28,30 +34,9 @@ persistence:
     restore:
       enabled: false
 nodeSelector:
-  enabled: true
   nodeLabel:
     role: api-read-ondemand
-ingress:
-  statediff:
-    enabled: false
-  ipfs:
-    enabled: false
-  powergate:
-    enabled: false
-  statediff:
-    enabled: false
 
-Powergate:
-  enabled: false
-IPFS:
-  enabled: false
-StateDiff:
-  enabled: false
-
-Lotus:
-  enabled: true
-  service:
-    enabled: true
 ingress:
   lotus:
     annotations:

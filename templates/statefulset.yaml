@@ -8,12 +8,20 @@ spec:
   replicas: {{ .Values.replicaCount }}
 {{- if .Values.Lotus.service.slave }}
   serviceName: {{ .Values.Lotus.service.release }}-lotus-service
-{{- else}}
+{{- else }}
   serviceName: {{ .Release.Name }}-lotus-service
-{{- end}}
+{{- end }}
   selector:
     matchLabels:
       app: lotus-node-app
+      chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      heritage: {{ .Release.Service }}
+{{- if .Values.Lotus.service.slave }}
+      release: {{ .Values.Lotus.service.release }}
+      release-fork: {{ .Release.Name }}
+{{- else }}
+      release: {{ .Release.Name }}
+{{- end }}
   template:
     metadata:
       labels:
@@ -27,6 +35,18 @@ spec:
         release: {{ .Release.Name }}
 {{- end }}
     spec:
+{{- if .Values.podAntiAffinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - lotus-node-app
+              topologyKey: "kubernetes.io/hostname"
+{{- end }}
 {{- if .Values.SecurityContext.runAsNonRoot }}
       securityContext:
         runAsGroup: {{ .Values.SecurityContext.runAsGroup }}
