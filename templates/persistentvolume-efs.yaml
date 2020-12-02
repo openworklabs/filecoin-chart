@@ -8,10 +8,12 @@ spec:
     storage: {{ .Values.persistence.lotus.size | quote }}
   volumeMode: Filesystem
   accessModes:
-    - ReadWriteMany
+    {{- range .Values.persistence.lotus.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: efs-sc
+  storageClassName: {{ .Values.persistence.storageClassName }}
   csi:
     driver: efs.csi.aws.com
     volumeHandle: {{ .Values.persistence.efs }}
-{{- end}}
+{{- end }}

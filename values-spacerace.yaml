@@ -115,6 +115,7 @@ resources:
 persistence:
   # If persistence is set to false no persistent volumes will be created
   enabled: true
+  #efs: fs-12345678
   hostPath: /nvme/disk
   autoResizer:
     enabled: true

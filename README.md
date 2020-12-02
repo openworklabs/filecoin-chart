@@ -112,6 +112,7 @@ These are our emphasized config options. For a full list, see the [values files]
 | `resources.<service>.limit.cpu` | The ceiling amount of vCPU (per service). | `<unset>` |
 | `resources.<service>.limit.memory` | The ceiling amount of memory (per service). | `<unset>` |
 | `persistence.enabled` | Enable PVC instead of using hostPath.  | `true` |
+| `persistence.efs` | Described at [EFS storage](#EFS_storage) section  | `false` |
 | `persistence.hostPath` | Set the hostPath where data will be stored. Chart will store data of the each server in the dedicated subfolders under `hostPath` path.  | `` |
 | `persistence.<service>.size` | Persistent volume storage size (per service). | `"200Gi"` |
 | `persistence.<service>.storageClassName` | Storage provisioner (per service). | `gp2` |
@@ -122,6 +123,22 @@ These are our emphasized config options. For a full list, see the [values files]
 | `secretVolume.persistNodeID` | If you want to persist nodeID - append the `nodeid` key to the secret created for the [JWT token](#Lotus-JWT). Used only if secretVolume is enabled. | `false` |
 | `serviceAccount.create` | Create service account. Must be enabled when enabling snapshot automation. | `true` |
 | `serviceAccount.name` | Must be set when `serviceAccount.create` is `true`. Will be prefixed with release name. | `acc` |
+
+## EFS_storage
+
+To start using EFS(Amazon Elastic File System) system you have to complete pre requirements:
+        
+- [Install](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) Amazon EFS CSI driver.
+- Create AWS [EFS](https://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html) .
+- [Create](https://docs.aws.amazon.com/efs/latest/ug/accessing-fs-create-security-groups.html) and [assign](https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html) security group to network interfaces in single(multiple) zone(s) with access to port 2049(tcp).
+- [Create](https://docs.aws.amazon.com/efs/latest/ug/create-file-system-policy.html) file system policies with access.
+                
+        "elasticfilesystem:ClientMount",
+        "elasticfilesystem:ClientRootAccess",
+        "elasticfilesystem:ClientWrite"
+                
+- Uncomment in values-$network.yaml file `persisnence.efs` part and change it to your EFS id(File system ID).
+- Set `.Values.persistence.lotus.accessModes` to `ReadWriteMany` and `.Values.persistence.storageClassName` to `efs-sc` in variables.
 
 ## Snapshots
 

@@ -117,6 +117,7 @@ persistence:
 # If persistence is set to false no persistent volumes will be created
   enabled: true
   hostPath: /nvme/disk
+  #efs: fs-12345678
   autoResizer:
     enabled: true
     increaseThreshold: 90 # in %

@@ -1,5 +1,5 @@
 all: lint package
-NODE = dev-efs-2
+NODE = dev-efs
 ENV = dev
 NAMESPACE = spacerace
 ## lotus nodes management
