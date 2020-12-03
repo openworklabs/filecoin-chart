@@ -12,7 +12,7 @@ spec:
     - {{ . | quote }}
     {{- end }}
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: {{ .Values.persistence.storageClassName }}
+  storageClassName: {{ .Values.persistence.lotus.storageClassName }}
   csi:
     driver: efs.csi.aws.com
     volumeHandle: {{ .Values.persistence.efs }}

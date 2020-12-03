@@ -106,8 +106,6 @@ spec:
       - name: keys-management
         image: busybox
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        securityContext:
-          runAsUser: 0
         command: ["/bin/sh","-c"]
         args: 
           - mkdir -p /home/lotus_user/.lotus/keystore;
