@@ -1,3 +1,4 @@
+{{- if not .Values.LotusLite.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -274,9 +275,9 @@ spec:
           value: "true"
         - name: LOTUS_CLIENT_IPFSUSEFORRETRIEVAL
           value: "true"
-{{- if .Values.ipfsDNS }}
+{{- if .Values.lotusDNS }}
         - name: LOTUS_CLIENT_IPFSMADDR
-          value: "/dns4/{{ .Values.ipfsDNS }}/tcp/5001"
+          value: "/dns4/{{ .Values.lotusDNS }}/tcp/5001"
 {{- else }}
         - name: LOTUS_CLIENT_IPFSMADDR
           value: "/ip4/127.0.0.1/tcp/5001"
@@ -437,5 +438,6 @@ spec:
           {{- else }}
         storageClassName: "{{ .Values.persistence.powergate.storageClassName }}"
         {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}

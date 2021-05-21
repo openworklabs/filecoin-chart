@@ -16,7 +16,7 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-{{- if .Values.cache.enabled }}
+  {{- if .Values.cache.enabled }}
           - path: /{{ .Release.Name }}/cache(/|$)(.*)
             pathType: Prefix
             backend:
@@ -31,7 +31,15 @@ spec:
                 name: {{ .Release.Name }}-lotus-service
                 port:
                   number: 1234
-{{- else }}
+  {{- else if .Values.ingress.lotuslite }}
+          - path: /{{ .Release.Name }}(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-service
+                port:
+                  number: 1234
+  {{- else }}
           - path: /{{ .Release.Name }}/lotus(/|$)(.*)
             pathType: Prefix
             backend:
@@ -39,5 +47,5 @@ spec:
                 name: {{ .Release.Name }}-lotus-service
                 port:
                   number: 1234
-{{- end }}
+  {{- end }}
 {{- end }}

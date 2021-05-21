@@ -1,0 +1,23 @@
+image:
+  repository: glif/lotus:v1.9.0-dev
+
+ingress:
+  host: dev.node.glif.io
+  lotuslite: true
+
+LotusLite:
+  enabled: true
+  FullNodeApi: "/dns4/api-read-dev-lotus-service/tcp/1234"
+Lotus:
+  enabled: false
+  service:
+    enabled: false
+
+persistence:
+  enabled: false
+  snapshots:
+    automation:
+      deletion:
+        enabled: false
+      creation:
+        enabled: false

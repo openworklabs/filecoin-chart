@@ -1,8 +1,8 @@
 all: lint package
 
 ## Edit node and env
-NODE = api-read
-ENV = prod
+NODE = lite-lotus
+ENV = dev
 NAMESPACE = spacerace
 
 ## lotus nodes management

@@ -1,0 +1,33 @@
+{{- if .Values.LotusLite.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-lotus
+  replicas: {{ .Values.LotusLite.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-lotus
+    spec:
+      containers:
+      - name: lotus-lite
+        image: {{ .Values.image.repository}}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 1234
+        env:
+        - name: INFRA_LOTUS_LITE
+          value: "true"
+        - name: INFRA_LOTUS_HOME
+          value: /home/lotus_user
+        - name: FULLNODE_API_INFO
+          value: {{ .Values.LotusLite.FullNodeApi }}
+        resources:
+{{ toYaml .Values.resources.lotuslite | indent 10 }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector.nodeLabel | indent 8 }}
+{{- end }}

@@ -1,0 +1,20 @@
+{{- if .Values.LotusLite.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+  labels:
+    app: lotus-lite
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "1234"
+    prometheus.io/path: /debug/metrics
+spec:
+  selector:
+    app: {{ .Release.Name }}-lotus
+  type: ClusterIP
+  ports:
+    - port: 1234
+      protocol: TCP
+      name: lite-api
+{{- end }}
