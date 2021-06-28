@@ -1,0 +1,17 @@
+ingress:
+  host: test.dev.node.glif.io
+  annotations:
+    kubernetes.io/ingress.class: nginx-test
+    nginx.ingress.kubernetes.io/ingress.class: nginx-test
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Authorization $nerpa03_jwt;
+      proxy_cache_bypass      $http_upgrade;
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+  lotus:
+    gateway: true
+
+Lotus:
+  service:
+    gateway: true
